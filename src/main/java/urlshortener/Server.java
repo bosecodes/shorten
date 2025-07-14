@@ -5,9 +5,11 @@ import com.sun.net.httpserver.HttpServer;
 import java.net.InetSocketAddress;
 import java.sql.*;
 
+import lombok.extern.slf4j.Slf4j;
 import urlshortener.config.AppConfig;
 import urlshortener.service.*;
 
+@Slf4j
 public class Server {
 
     private static Connection conn;
@@ -29,7 +31,7 @@ public class Server {
         server.setExecutor(null);
         server.start();
 
-        System.out.println("Server running on http://localhost:8080/");
+        log.info("Server running on http://localhost:8080/");
     }
 
     public static Connection getConn() {
