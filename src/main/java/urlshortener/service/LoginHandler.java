@@ -2,6 +2,7 @@ package urlshortener.service;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import lombok.extern.slf4j.Slf4j;
 import urlshortener.utils.HelperMethods;
 
 import java.io.File;
@@ -15,6 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Slf4j
 public class LoginHandler implements HttpHandler {
 
     private static Connection conn;
@@ -52,16 +54,16 @@ public class LoginHandler implements HttpHandler {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                System.out.println("Login successful for user: " + username);
+                log.info("Login successful for user: {}", username);
                 String encodedUsername = URLEncoder.encode(username, StandardCharsets.UTF_8.toString());
                 exchange.getResponseHeaders().set("Location", "/index?username=" + encodedUsername);
                 exchange.sendResponseHeaders(302, -1);
             } else {
-                System.out.println("Invalid credentials for user: " + username);
+                log.info("Invalid credentials for user: {}", username);
                 HelperMethods.respond(exchange, 401, "Invalid credentials");
             }
         } catch (SQLException e) {
-            System.err.println("Error querying user: " + e.getMessage());
+            log.error("Error querying user: {}", e.getMessage());
             HelperMethods.respond(exchange, 500, "Database error");
         }
     }

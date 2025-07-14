@@ -2,6 +2,7 @@ package urlshortener.service;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import lombok.extern.slf4j.Slf4j;
 import urlshortener.utils.HelperMethods;
 
 import java.io.File;
@@ -12,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+@Slf4j
 public class RegisterHandler implements HttpHandler {
 
     private static Connection conn;
@@ -48,14 +50,15 @@ public class RegisterHandler implements HttpHandler {
             ps.setString(2, password);
             int rowsAffected = ps.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("User registered successfully: " + username);
+                log.info("User registered successfully: {}", username);
                 exchange.getResponseHeaders().set("Location", "/index");
                 exchange.sendResponseHeaders(302, -1);
             } else {
+                log.error("Failed to register user {}", username);
                 HelperMethods.respond(exchange, 500, "Failed to register user");
             }
         } catch (SQLException e) {
-            System.err.println("Error inserting user: " + e.getMessage());
+            log.error("Error inserting user: {}", e.getMessage());
             HelperMethods.respond(exchange, 400, "User already exists");
         }
     }
