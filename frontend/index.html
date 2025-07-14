@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mini URL Shortener</title>
+    <style>
+        * {
+          box-sizing: border-box;
+        }
+        body {
+          font-family: Arial, sans-serif;
+          max-width: 600px;
+          margin: 2rem auto;
+          padding: 1rem;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+        }
+        h2 { margin-bottom: 1rem; }
+        input, button {
+          padding: 10px;
+          width: calc(100% - 20px); /* Adjust width to account for padding */
+          margin-top: 10px;
+          font-size: 1rem;
+        }
+        #customAlias { display: none; }
+        .auth-buttons { margin-top: 10px; }
+        .auth-buttons a {
+          margin-right: 10px;
+          text-decoration: none;
+          color: #007bff;
+        }
+        #logoutDiv {
+          margin-top: 1rem;
+        }
+        #result {
+          margin-top: 1rem;
+          color: green;
+        }
+    </style>
+</head>
+<body>
+<h2 id="welcome">Welcome!</h2>
+    <script>
+        window.onload = function() {
+          const params = new URLSearchParams(window.location.search);
+          const username = params.get("username") || "Guest";
+          document.getElementById("greeting").innerText = "Hello " + username + "!";
+        };
+    </script>
+<h1 id="greeting">Hello!</h1>
+</body>
+</html>
+
+
+<div class="auth-buttons" id="authButtons">
+    <a href="login.html">Login</a>
+    <a href="register.html">Register</a>
+</div>
+
+<div id="logoutDiv" style="display:none;">
+    <button onclick="logout()">Logout</button>
+</div>
+
+<form id="shortenForm">
+    <input type="url" id="longUrl" name="longUrl" placeholder="Enter a long URL to shorten" required>
+
+    <div id="customAlias">
+        <input type="text" id="custom" name="custom" placeholder="Custom alias (optional)">
+    </div>
+
+    <button type="submit">Shorten</button>
+</form>
+
+<p id="result"></p>
+
+<script>
+    function logout() {
+      document.cookie = "sid=; Max-Age=0; Path=/";
+      location.reload();
+    }
+
+    document.getElementById("shortenForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const longUrl = document.getElementById("longUrl").value;
+      const custom = document.getElementById("custom").value;
+
+      const formData = new URLSearchParams();
+      formData.append("longUrl", longUrl);
+      if (custom) {
+        formData.append("custom", custom);
+      }
+
+      const res = await fetch("http://localhost:8080/shorten", {
+        method: "POST",
+        body: formData,
+        credentials: "include"
+      });
+
+      const text = await res.text();
+      document.getElementById("result").textContent = res.ok ? "Short URL: " + text : "Error: " + text;
+    });
+
+    checkSession();
+</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+urlshortener\database\Database.class
+urlshortener\config\AppConfig.class
+urlshortener\service\LoginHandler.class
+urlshortener\service\RegisterHandler.class
+urlshortener\utils\HelperMethods.class
+urlshortener\service\UrlHandler.class
+urlshortener\Server.class
+urlshortener\service\HomePageHandler.class
+urlshortener\service\RedirectHandler.class
+urlshortener\utils\HashGenerator.class
