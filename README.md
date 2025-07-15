@@ -89,5 +89,6 @@ Registration Screen:
 <img width="942" height="483" alt="image" src="https://github.com/user-attachments/assets/df718295-bad6-41e1-85f2-add95d48de2f" />
 
 Log in screen:
+
 <img width="356" height="379" alt="image" src="https://github.com/user-attachments/assets/1cb20a14-a1c1-4254-b4b7-645fa55e11dd" />
 
