@@ -12,16 +12,17 @@ public class UrlHandlerTest {
     static void setupDatabase() {
         // Use in-memory DB for isolated testing
         Database.setJdbcUrl("jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1");
-        Database.initSchema(); // Create `urls` table
+        Database.initSchema(); // Should now create the `username` column too
     }
 
     @Test
-    void testInsertAndRetrieveUrl() throws Exception {
+    void testInsertAndRetrieveUrlWithUsername() throws Exception {
+        String username = "testuser";
         String shortCode = "abc123";
         String longUrl = "https://example.com";
 
-        Database.insertUrl(shortCode, longUrl);
-        String fetched = Database.getLongUrl(shortCode);
+        Database.insertUrl(username, shortCode, longUrl);
+        String fetched = Database.getLongUrl(username, shortCode);
 
         assertEquals(longUrl, fetched);
     }
