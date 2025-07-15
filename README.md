@@ -75,3 +75,19 @@ This project is licensed under the MIT License.
 ---
 
 Built with ❤️ using pure Java.
+
+Snapshots:
+Anonymous User:
+<img width="1916" height="991" alt="image" src="https://github.com/user-attachments/assets/ca6f4cd8-da59-4465-bbc2-c47df755c32f" />
+<img width="697" height="444" alt="image" src="https://github.com/user-attachments/assets/951d2ba0-6c4e-4b93-8caa-090ade1331ec" />
+
+Logged in user: (Custom URL workflow)
+<img width="735" height="490" alt="image" src="https://github.com/user-attachments/assets/fca61cd8-499c-46ae-b49b-355e74ab77eb" />
+<img width="657" height="433" alt="image" src="https://github.com/user-attachments/assets/c12a7fcf-8ea8-4385-8241-0fad76821502" />
+
+Registration Screen:
+<img width="942" height="483" alt="image" src="https://github.com/user-attachments/assets/df718295-bad6-41e1-85f2-add95d48de2f" />
+
+Log in screen:
+<img width="356" height="379" alt="image" src="https://github.com/user-attachments/assets/1cb20a14-a1c1-4254-b4b7-645fa55e11dd" />
+
