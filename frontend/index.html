@@ -40,11 +40,12 @@
 <body>
 <h2 id="welcome">Welcome!</h2>
     <script>
-        window.onload = function() {
-          const params = new URLSearchParams(window.location.search);
-          const username = params.get("username") || "Guest";
-          document.getElementById("greeting").innerText = "Hello " + username + "!";
-        };
+        window.onload = function () {
+  const params = new URLSearchParams(window.location.search);
+  const username = params.get("username") || "Guest";
+  document.getElementById("greeting").innerText = "Hello " + username + "!";
+  document.getElementById("username").value = username; // NEW LINE
+};
     </script>
 <h1 id="greeting">Hello!</h1>
 </body>
@@ -62,32 +63,44 @@
 
 <form id="shortenForm">
     <input type="url" id="longUrl" name="longUrl" placeholder="Enter a long URL to shorten" required>
+    <input type="hidden" id="username" name="username">
 
     <div id="customAlias">
         <input type="text" id="custom" name="custom" placeholder="Custom alias (optional)">
     </div>
 
-    <button type="submit">Shorten</button>
+    <button type="submit" id="shortenBtn">Shorten</button>
 </form>
 
 <p id="result"></p>
 
 <script>
-    function logout() {
-      document.cookie = "sid=; Max-Age=0; Path=/";
-      location.reload();
-    }
+    const longUrlInput = document.getElementById("longUrl");
+    const shortenBtn = document.getElementById("shortenBtn");
+    let lastSubmittedUrl = "";
+
+    // Enable/Disable button dynamically based on input
+    longUrlInput.addEventListener("input", () => {
+      const trimmed = longUrlInput.value.trim(); // move inside
+      shortenBtn.disabled = !trimmed || trimmed === lastSubmittedUrl;
+    });
 
     document.getElementById("shortenForm").addEventListener("submit", async function (e) {
       e.preventDefault();
-      const longUrl = document.getElementById("longUrl").value;
+
+      const longUrl = longUrlInput.value.trim(); // trimmed here too
       const custom = document.getElementById("custom").value;
+      const username = new URLSearchParams(window.location.search).get("username");
+
+      if (!longUrl || longUrl === lastSubmittedUrl) return;
+
+      shortenBtn.disabled = true;
+      lastSubmittedUrl = longUrl;
 
       const formData = new URLSearchParams();
       formData.append("longUrl", longUrl);
-      if (custom) {
-        formData.append("custom", custom);
-      }
+      if (custom) formData.append("custom", custom);
+      if (username) formData.append("username", username);
 
       const res = await fetch("http://localhost:8080/shorten", {
         method: "POST",
@@ -96,7 +109,9 @@
       });
 
       const text = await res.text();
-      document.getElementById("result").textContent = res.ok ? "Short URL: " + text : "Error: " + text;
+      document.getElementById("result").textContent = res.ok
+        ? "Short URL: " + text
+        : "Error: " + text;
     });
 
     checkSession();
