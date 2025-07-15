@@ -14,6 +14,7 @@ import java.sql.Connection;
 
 public class HomePageHandler implements HttpHandler {
     private static Connection conn;
+    String fileLocation = "frontend/index.html";
 
     public HomePageHandler(Connection conn) {
         HomePageHandler.conn = conn;
@@ -32,8 +33,7 @@ public class HomePageHandler implements HttpHandler {
             exchange.sendResponseHeaders(405, -1);
             return;
         }
-
-        String html = new String(Files.readAllBytes(Paths.get("frontend/index.html")));
+        String html = new String(Files.readAllBytes(Paths.get(fileLocation)));
         html = html.replace("{{username}}", username);
 
         byte[] response = html.getBytes();
