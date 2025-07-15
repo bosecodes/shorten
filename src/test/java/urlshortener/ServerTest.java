@@ -19,7 +19,7 @@ class ServerTest {
         // Use real in-memory H2 database for integration-style test
         conn = DriverManager.getConnection("jdbc:h2:mem:testdb", "sa", "");
         try (Statement stmt = conn.createStatement()) {
-            stmt.execute("CREATE TABLE users (username VARCHAR(255) PRIMARY KEY, password VARCHAR(255))");
+            stmt.execute("CREATE TABLE userstest (username VARCHAR(255) PRIMARY KEY, password VARCHAR(255))");
         }
     }
 
@@ -27,7 +27,7 @@ class ServerTest {
     void testUsersTableCreatedSuccessfully() throws Exception {
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'USERS'");
-        assertTrue(rs.next(), "Users table should exist");
+        assertTrue(rs.next(), "Userstest table should exist");
     }
 
     @Test
@@ -40,11 +40,11 @@ class ServerTest {
         when(mockStmt.execute(anyString())).thenReturn(true);
 
         // Run the DB setup logic
-        mockConn.createStatement().execute("CREATE TABLE users (username VARCHAR(255) PRIMARY KEY, password VARCHAR(255))");
+        mockConn.createStatement().execute("CREATE TABLE userstest (username VARCHAR(255) PRIMARY KEY, password VARCHAR(255))");
 
         // Verify SQL execution
         verify(mockConn).createStatement();
-        verify(mockStmt).execute("CREATE TABLE users (username VARCHAR(255) PRIMARY KEY, password VARCHAR(255))");
+        verify(mockStmt).execute("CREATE TABLE userstest (username VARCHAR(255) PRIMARY KEY, password VARCHAR(255))");
     }
 
     @Test

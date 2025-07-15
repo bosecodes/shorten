@@ -1,11 +1,14 @@
 package urlshortener.database;
 
+import lombok.Setter;
+
 import java.sql.*;
 
 public class Database {
-    private static final String JDBC_URL = "jdbc:h2:./shorten-db";
+    @Setter
+    private static String jdbcUrl = "jdbc:h2:./shorten-db"; // default
 
-    static {
+    public static void initSchema() {
         try (Connection conn = getConnection(); Statement stmt = conn.createStatement()) {
             stmt.executeUpdate("CREATE TABLE IF NOT EXISTS urls (" +
                     "id IDENTITY PRIMARY KEY, " +
@@ -17,7 +20,7 @@ public class Database {
     }
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(JDBC_URL, "sa", "");
+        return DriverManager.getConnection(jdbcUrl, "sa", "");
     }
 
     public static void insertUrl(String shortCode, String longUrl) throws SQLException {
