@@ -1,3 +1,7 @@
+#### Note: Due to HTTPExchange mocking not being supported in JDK 23, I degraded the version to 17, but since project metadata is built around 23, make sure to run the following steps before running on local. (See Issue: https://github.com/bosecodes/shorten/issues/7)
+1. POM -> In java source and target version, change from 17 to 23.
+2. Comment out the tests in ServerTest.java, HelperMethodsTest.java, these classes use HTTPExchange.
+
 # Shorten
 
 A lightweight URL shortener built using plain Java with `com.sun.net.httpserver.HttpServer`, H2 Database, and vanilla HTML/CSS/JS frontend.
